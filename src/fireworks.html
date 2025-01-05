@@ -1,74 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="UTF-8">
-    <title>Fireworks</title>
-<style>
-    * {
-    margin: 0;
-    padding: 0;
-}
-    html, body {
-    height: 100%;
-    width: 100%;
-}
-    canvas {
-    display: block;
-}
-</style>
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
+        alert('点击屏幕释放烟花！！')
+
         const canvas = document.getElementById('myCanvas');
         const ctx = canvas.getContext('2d');
-        const count = 10;
-        const radius = 10;
 
         function text(){
-        ctx.font = '88px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillStyle = '#FFD700';
-        ctx.fillText('新年快乐！！', canvas.width / 2, canvas.height / 2);
-    }
+            ctx.font = '88px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = '#FFD700';
+            ctx.fillText('新年快乐！！', canvas.width / 2, canvas.height / 2);
+        }
 
         function fillCanvas() {
-        ctx.fillStyle = '#000000';
-        ctx.fillRect( 0, 0,canvas.width, canvas.height);
-    };
+            ctx.fillStyle = '#000000';
+            ctx.fillRect( 0, 0,canvas.width, canvas.height);
+        };
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         window.addEventListener('resize', function() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        fillCanvas();
-        text();
-    });
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            clearCanvas();
+        });
 
-        function lightFireworks(ox, oy) {
-        for (var i = 0;i < count;i++){
-        var angle = 360 / count * i;
-        var radians = angle * Math.PI / 180;
-        var nx = ox + Math.cos(radians) * radius;
-        var ny = oy + Math.sin(radians) * radius;
-        ctx.beginPath();
-        ctx.arc(nx, ny, 2, 0, 360, true);
-        ctx.closePath();
-        ctx.fillStyle = "#ff0000";
-        ctx.fill();
-    };
-    };
-
-        fillCanvas();
-        text();
+        function fireworks(ox, oy) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0,0,0,'+ 10/ 100+ ')';
+            ctx.fillRect( 0, 0,canvas.width,canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
+            var count = 20;
+            for (var i = 0;i < count;i++){
+                var angle = 360 / count * i;
+                var radians = angle * Math.PI / 180;
+                var nx = ox + Math.cos(radians) * radius;
+                var ny = oy + Math.sin(radians) * radius;
+                ctx.beginPath();
+                ctx.arc(nx, ny, 2, 0, 360, true);
+                ctx.closePath();
+                ctx.fillStyle = "#ff0000";
+                ctx.fill();
+            };
+            clearCanvas();
+        };
+        var radius = 0;
+        function light(lx, ly) {
+            function boom() {
+                if (radius == 88) {
+                    clearCanvas();
+                    return;
+                }
+                else{
+                    fireworks(lx, ly);
+                    radius++;
+                    requestAnimationFrame(boom);
+                }
+            }
+            boom();
+        }
+        function clearCanvas() {
+            fillCanvas();
+            text();
+        };
+        clearCanvas();
         document.addEventListener('click', function(event) {
-        var rect = canvas.getBoundingClientRect();
-        var x = event.clientX;
-        var y = event.clientY;
-        lightFireworks(x, y);
-    })
+            var rect = canvas.getBoundingClientRect();
+            var x = event.clientX;
+            var y = event.clientY;
+            radius = 0;
+            light(x, y);
+        })
+
     </script>
-    </body>
+</body>
 </html>
