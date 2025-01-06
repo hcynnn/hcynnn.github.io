@@ -89,12 +89,15 @@
             text();
         };
         clearCanvas();
-
+        setInterval(function() {
+            var fateWidth = Math.floor(Math.random()*window.innerWidth);
+            var fateHeight = Math.floor(Math.random()*window.innerHeight);
+            light(fateWidth, fateHeight);
+        }, 666)
         document.addEventListener('click', function(event) {
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX;
             var y = event.clientY;
-            radius = 0;
             light(x, y);
         })
     </script>
