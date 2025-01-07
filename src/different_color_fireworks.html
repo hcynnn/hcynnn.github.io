@@ -57,10 +57,11 @@
         mustBeWorked();
         function fateColor() {
             var fateColor = Math.floor(Math.random()*256);
-            return fateColor - 50;
+            console.log(fateColor);
+            return fateColor - 66;
         }
 
-        function fireworks(ox, oy, radius, r, b) {
+        function fireworks(ox, oy, radius, r, g, b) {
             var count = 20;
             for (var i = 0;i < count;i++){
                 var angle = 360 / count * i;
@@ -70,13 +71,14 @@
                 ctx.beginPath();
                 ctx.arc(nx, ny, 2, 0, 360, true);
                 ctx.closePath();
-                ctx.fillStyle = "rgb(" + r + "," + 30 + "," + b + ")";
+                ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
                 ctx.fill();
             };
         };
         function light(lx, ly) {
             var rds = 0;
             var clr_r = fateColor();
+            var clr_g = fateColor();
             var clr_b = fateColor();
             function boom() {
                 if (rds == 88) {
@@ -85,7 +87,7 @@
                 }
                 else{
                     rds ++;
-                    fireworks(lx, ly, rds, clr_r, clr_b);
+                    fireworks(lx, ly, rds, clr_r, clr_g, clr_b);
                     requestAnimationFrame(boom);
                 }
             }
