@@ -22,92 +22,92 @@
     <script>
         alert('点击屏幕释放烟花！！')
 
-        const canvas = document.getElementById('myCanvas');
-        const ctx = canvas.getContext('2d');
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
 
-        function text(){
-            ctx.font = '88px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            ctx.fillStyle = '#FFD700';
-            ctx.fillText('新年快乐！！', canvas.width / 2, canvas.height / 2);
-        }
+function text(){
+    ctx.font = '88px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText('新年快乐！！', canvas.width / 2, canvas.height / 2);
+}
 
-        function fillCanvas() {
-            ctx.fillStyle = '#000000';
-            ctx.fillRect( 0, 0,canvas.width, canvas.height);
-        };
+function fillCanvas() {
+    ctx.fillStyle = '#000000';
+    ctx.fillRect( 0, 0,canvas.width, canvas.height);
+};
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    clearCanvas();
+});
+
+function mustBeWorked() {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,'+ 10/ 100+ ')';
+    ctx.fillRect( 0, 0,canvas.width,canvas.height);
+    ctx.globalCompositeOperation = 'lighter';
+    clearCanvas();
+    requestAnimationFrame(mustBeWorked);
+};
+mustBeWorked();
+
+function fateColor() {
+    var fateColor = Math.floor(Math.random()*256);
+    return fateColor - 88;
+}
+
+function fireworks(ox, oy, radius) {
+    var count = 20;
+    for (var i = 0;i < count;i++){
+        var angle = 360 / count * i;
+        var radians = angle * Math.PI / 180;
+        var nx = ox + Math.cos(radians) * radius;
+        var ny = oy + Math.sin(radians) * radius;
+        ctx.beginPath();
+        ctx.arc(nx, ny, 2, 0, 360, true);
+        ctx.closePath();
+        ctx.fillStyle = "rgb(" + fateColor() + "," + fateColor() + "," + fateColor() + ")";
+        ctx.fill();
+    };
+};
+function light(lx, ly) {
+    var rds = 0;
+    function boom() {
+        if (rds == 88) {
             clearCanvas();
-        });
-
-        function mustBeWorked() {
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(0,0,0,'+ 10/ 100+ ')';
-            ctx.fillRect( 0, 0,canvas.width,canvas.height);
-            ctx.globalCompositeOperation = 'lighter';
-            clearCanvas();
-            requestAnimationFrame(mustBeWorked);
-        };
-        mustBeWorked();
-        function fateColor() {
-            var fateColor = Math.floor(Math.random()*256);
-            console.log(fateColor);
-            return fateColor;
+            return;
         }
-
-        function fireworks(ox, oy, radius) {
-            var count = 20;
-            for (var i = 0;i < count;i++){
-                var angle = 360 / count * i;
-                var radians = angle * Math.PI / 180;
-                var nx = ox + Math.cos(radians) * radius;
-                var ny = oy + Math.sin(radians) * radius;
-                ctx.beginPath();
-                ctx.arc(nx, ny, 2, 0, 360, true);
-                ctx.closePath();
-                ctx.fillStyle = "rgb(" + fateColor() + "," + fateColor() + "," + fateColor() + ")";
-                ctx.fill();
-            };
-        };
-        function light(lx, ly) {
-            var rds = 0;
-            function boom() {
-                if (rds == 88) {
-                    clearCanvas();
-                    return;
-                }
-                else{
-                    rds ++;
-                    fireworks(lx, ly, rds);
-                    requestAnimationFrame(boom);
-                }
-            }
-            boom();
+        else{
+            rds ++;
+            fireworks(lx, ly, rds);
+            requestAnimationFrame(boom);
         }
-        function clearCanvas() {
-            fillCanvas();
-            text();
-        };
-        clearCanvas();
+    }
+    boom();
+}
+function clearCanvas() {
+    fillCanvas();
+    text();
+};
+clearCanvas();
 
-        setInterval(function() {
-            var fateWidth = Math.floor(Math.random()*window.innerWidth);
-            var fateHeight = Math.floor(Math.random()*window.innerHeight);
-            light(fateWidth, fateHeight);
-        }, 888)
+setInterval(function() {
+    var fateWidth = Math.floor(Math.random()*window.innerWidth);
+    var fateHeight = Math.floor(Math.random()*window.innerHeight);
+    light(fateWidth, fateHeight);
+}, 666)
 
-        document.addEventListener('click', function(event) {
-            var rect = canvas.getBoundingClientRect();
-            var x = event.clientX;
-            var y = event.clientY;
-            light(x, y);
-        })
+document.addEventListener('click', function(event) {
+    var rect = canvas.getBoundingClientRect();
+    var x = event.clientX;
+    var y = event.clientY;
+    light(x, y);
+})
     </script>
 </body>
 </html>
