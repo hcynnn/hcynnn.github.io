@@ -22,8 +22,8 @@
     <script>
         alert('点击屏幕释放烟花！！')
 
-const canvas = document.getElementById('myCanvas');
-const ctx = canvas.getContext('2d');
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
 
 function text(){
     ctx.font = '88px Arial';
@@ -104,6 +104,8 @@ setInterval(function() {
     var fateHeight = Math.floor(Math.random()*window.innerHeight);
     light(fateWidth, fateHeight);
     setTimeout(function(){ light(fateWidth, fateHeight) }, 280);
+    setTimeout(function(){ light(fateWidth, fateHeight) }, 280 * 2);
+    setTimeout(function(){ light(fateWidth, fateHeight) }, 280 * 3);
 }, 666)
 
 document.addEventListener('click', function(event) {
@@ -112,7 +114,11 @@ document.addEventListener('click', function(event) {
     var y = event.clientY;
     light(x, y);
     setTimeout(function(){ light(x, y) }, 280);
+    setTimeout(function(){ light(x, y) }, 280 * 2);
+    setTimeout(function(){ light(x, y) }, 280 * 3);
 })
+
+
     </script>
 </body>
 </html>
