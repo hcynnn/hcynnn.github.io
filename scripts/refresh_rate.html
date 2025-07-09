@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  var times = 0;
+  function wait(){
+    times ++;
+    requestAnimationFrame(wait)
+  }
+  wait();
+  setInterval(function (){
+    location.reload();
+    document.write(`当前刷新率为${times}`);
+    times = 0;
+  }, 1000)
+</script>
+</body>
+</html>
